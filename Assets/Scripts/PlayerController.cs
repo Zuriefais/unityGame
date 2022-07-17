@@ -14,6 +14,16 @@ public class PlayerController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SaveDate.PlayerData safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
+        if (safeData.x == 0f)
+        {
+            Debug.Log("= 0");
+            safeData.x = this.transform.position.x;
+            safeData.y = this.transform.position.y;
+
+            SaveMenager.Save(safeData ,"PlayerSave.json");
+        }
+        Debug.Log(SaveMenager.Load<SaveDate.PlayerData>("playerSave.json").playerName);
         rb = GetComponent<Rigidbody2D>();
         if (isLocalPlayer)
         {
