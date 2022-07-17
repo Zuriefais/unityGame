@@ -6,11 +6,13 @@ using Cinemachine;
 
 public class PlayerController : NetworkBehaviour
 {
+    
     Rigidbody2D rb;
     public float speed;
     public GameObject mainCamera;
     private Vector2 direction;
     private CinemachineVirtualCamera cinemachineCamera;
+    private SaveDate.PlayerData safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
 
     void cameraConnect()
     {
@@ -20,18 +22,18 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    void positionUpdate()
+    void positionLoad()
     {
-        SaveDate.PlayerData safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
         if (safeData.x == 0f)
         {
-            Debug.Log("= 0");
             safeData.x = this.transform.position.x;
             safeData.y = this.transform.position.y;
-
             SaveMenager.Save(safeData, "PlayerSave.json");
         }
-        Debug.Log(SaveMenager.Load<SaveDate.PlayerData>("playerSave.json").playerName);
+        else
+        {
+            transform.position = new Vector2(safeData.x, safeData.y);
+        }
     }
 
     void CheckInput()
@@ -50,8 +52,9 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        positionUpdate();
+        positionLoad();
         cameraConnect();
+        StartCoroutine(SavePosition());
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -63,5 +66,17 @@ public class PlayerController : NetworkBehaviour
     void FixedUpdate()
     {
         MovePosition();
+    }
+
+    IEnumerator SavePosition()
+    {
+        while(true)
+        {
+            yield return new WaitForSecondsRealtime(10f);
+            safeData.x = transform.position.x;
+            safeData.y = transform.position.y;
+            SaveMenager.Save(safeData, "PlayerSave.json");
+            Debug.Log("saved" + safeData.x + safeData.y);
+        }
     }
 }
