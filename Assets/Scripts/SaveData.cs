@@ -1,7 +1,5 @@
 namespace SaveDate
 {
-    using UnityEngine;
-
     [System.Serializable]
     public class PlayerData
     {
@@ -9,5 +7,11 @@ namespace SaveDate
         public float x;
         public float y;
         
+    }
+
+    [System.Serializable]
+    public class ServerData
+    {
+
     }
 }

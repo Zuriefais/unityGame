@@ -1,11 +1,12 @@
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class SaveMenager
 {
     public static void Save<T>(T sv, string fileName)
     {
-        string jsonSave = JsonUtility.ToJson(sv);
+        string jsonSave = JsonConvert.SerializeObject(sv);
         string path = Path.Combine(Application.dataPath,fileName);
         File.WriteAllText(path, jsonSave);
     }
@@ -23,7 +24,7 @@ public class SaveMenager
             file = null;
         }
         
-        return JsonUtility.FromJson<T>(file);
+        return JsonConvert.DeserializeObject<T>(file);
     }
 
 }
