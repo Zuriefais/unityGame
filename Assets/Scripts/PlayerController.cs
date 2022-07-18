@@ -50,11 +50,28 @@ public class PlayerController : NetworkBehaviour
         rb.MovePosition(rb.position + direction.normalized * Time.fixedDeltaTime * speed);
     }
 
+    void SavePosition()
+    {
+        safeData.x = transform.position.x;
+        safeData.y = transform.position.y;
+        SaveMenager.Save(safeData, "PlayerSave.json");
+        Debug.Log("saved" + safeData.x + safeData.y);
+    }
+
+    IEnumerator StartSavePosition()
+    {
+        while(true)
+        {
+            yield return new WaitForSecondsRealtime(10f);
+            SavePosition();
+        }
+    }
+
     void Start()
     {
         positionLoad();
         cameraConnect();
-        StartCoroutine(SavePosition());
+        StartCoroutine(StartSavePosition());
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -68,15 +85,9 @@ public class PlayerController : NetworkBehaviour
         MovePosition();
     }
 
-    IEnumerator SavePosition()
+   void OnApplicationQuit()
     {
-        while(true)
-        {
-            yield return new WaitForSecondsRealtime(10f);
-            safeData.x = transform.position.x;
-            safeData.y = transform.position.y;
-            SaveMenager.Save(safeData, "PlayerSave.json");
-            Debug.Log("saved" + safeData.x + safeData.y);
-        }
+        SavePosition();
     }
+
 }
