@@ -13,7 +13,16 @@ public class SaveMenager
     public static T Load<T>(string fileName) where T: new()
     {
         string path = Path.Combine(Application.dataPath, fileName);
-        string file = File.ReadAllText(path);
+        string file;
+        try {
+            file = File.ReadAllText(path);
+        }
+        catch {
+            path = Path.Combine(Application.dataPath, fileName);
+            File.WriteAllText(path, "");
+            file = null;
+        }
+        
         return JsonUtility.FromJson<T>(file);
     }
 

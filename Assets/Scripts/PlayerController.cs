@@ -69,10 +69,11 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        positionLoad();
-        cameraConnect();
-        StartCoroutine(StartSavePosition());
         rb = GetComponent<Rigidbody2D>();
+        cameraConnect();
+        positionLoad();
+        StartCoroutine(StartSavePosition());
+        
     }
 
     void Update()
