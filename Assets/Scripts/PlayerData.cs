@@ -10,9 +10,4 @@ namespace SaveDate
         public float y;
         
     }
-
-    public class NoneData
-    {
-        public float x;
-    }
 }
