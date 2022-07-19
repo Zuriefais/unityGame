@@ -5,5 +5,4 @@ using Mirror;
 
 public class CustomNetworkMenager : NetworkManager
 {
-    
 }
