@@ -22,20 +22,6 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    void positionLoad()
-    {
-        if (safeData.x == 0f)
-        {
-            safeData.x = this.transform.position.x;
-            safeData.y = this.transform.position.y;
-            SaveMenager.Save(safeData, "PlayerSave.json");
-        }
-        else
-        {
-            transform.position = new Vector2(safeData.x, safeData.y);
-        }
-    }
-
     void CheckInput()
     {
         if (isLocalPlayer)
@@ -50,30 +36,10 @@ public class PlayerController : NetworkBehaviour
         rb.MovePosition(rb.position + direction.normalized * Time.fixedDeltaTime * speed);
     }
 
-    void SavePosition()
-    {
-        safeData.x = transform.position.x;
-        safeData.y = transform.position.y;
-        SaveMenager.Save(safeData, "PlayerSave.json");
-        Debug.Log("saved" + safeData.x + safeData.y);
-    }
-
-    IEnumerator StartSavePosition()
-    {
-        while(true)
-        {
-            yield return new WaitForSecondsRealtime(10f);
-            SavePosition();
-        }
-    }
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        cameraConnect();
-        positionLoad();
-        StartCoroutine(StartSavePosition());
-        
+        cameraConnect();     
     }
 
     void Update()
@@ -84,11 +50,6 @@ public class PlayerController : NetworkBehaviour
     void FixedUpdate()
     {
         MovePosition();
-    }
-
-   void OnApplicationQuit()
-    {
-        SavePosition();
     }
 
 }

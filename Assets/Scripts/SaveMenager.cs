@@ -31,7 +31,7 @@ public class SaveMenager
 
     public static void SaveList<T>(List<T> sv, string fileName)
     {
-        string jsonSave = JsonConvert.SerializeObject(sv);
+        string jsonSave = JsonHelper.ToJson<T>(sv.ToArray());
         string path = Path.Combine(Application.dataPath, fileName);
         File.WriteAllText(path, jsonSave);
     }
@@ -51,7 +51,7 @@ public class SaveMenager
             file = null;
         }
 
-        List<T> res = JsonHelper.FromJson<T>(file).ToList();
+        List<T> res = JsonConvert.DeserializeObject<List<T>>(file);
 
         return res;
 

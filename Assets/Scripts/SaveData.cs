@@ -1,17 +1,16 @@
+using UnityEngine;
 namespace SaveDate
 {
     [System.Serializable]
     public class PlayerData
     {
         public string playerName;
-        public float x;
-        public float y;
-        
     }
 
     [System.Serializable]
-    public class ServerData
+    public class PlayersPositions
     {
-
+        public string playerName;
+        public Vector2Int playerPosition;
     }
 }
