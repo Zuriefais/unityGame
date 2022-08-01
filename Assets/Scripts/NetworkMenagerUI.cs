@@ -10,7 +10,7 @@ public class NetworkMenagerUI : MonoBehaviour
 
 	public Button buttonHost, buttonServer, buttonClient, buttonStop;
 
-	public TextMeshProUGUI inputFieldAddress;
+    public TMP_InputField inputFieldAddress;
 
 	public TextMeshProUGUI serverText;
 	public TextMeshProUGUI clientText;
