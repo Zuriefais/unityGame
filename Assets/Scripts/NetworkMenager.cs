@@ -1,4 +1,3 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +10,11 @@ public struct PlayerParams: NetworkMessage
 
 public class CustomNetworkMenager : NetworkManager
 {
-    public bool isConnected;
-    NetworkConnection connection;
-    List<SaveDate.PlayersPositions> serverSave;
-    SaveDate.PlayerData playerSave;
-    PlayerParams newPlayerParams;
+    private bool isConnected;
+    private NetworkConnection connection;
+    private List<SaveDate.PlayersPositions> serverSave;
+    private SaveDate.PlayerData playerSave;
+    private PlayerParams newPlayerParams;
 
     public override void Start()
     {
@@ -93,10 +92,10 @@ public class CustomNetworkMenager : NetworkManager
         GameObject gameobject;
         SaveDate.PlayersPositions newSave = new();
         newSave.playerName = message.name;
-        newSave.playerPosition = new(0, 0);
+        newSave.playerPosition = new(9, 1);
         serverSave.Add(newSave);
         SaveMenager.Save(serverSave, "playersPositions.json");
-        gameobject = Instantiate(playerPrefab, new Vector2(0, 0), Quaternion.identity);
+        gameobject = Instantiate(playerPrefab, new Vector2(9, 1), Quaternion.identity);
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 

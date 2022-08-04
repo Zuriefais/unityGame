@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Cinemachine;
 
 public class PlayerController : NetworkBehaviour
 {
-    
-    Rigidbody2D rb;
     public float speed;
     public GameObject mainCamera;
-    private Vector2 direction;
-    private CinemachineVirtualCamera cinemachineCamera;
-    private SaveDate.PlayerData safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
+    private Rigidbody2D _rigidBody;
+    private Vector2 _direction;
+    private CinemachineVirtualCamera _cinemachineCamera;
+    private SaveDate.PlayerData _safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
 
-    void cameraConnect()
+    private void CameraConnect()
     {
         if (isLocalPlayer)
         {
@@ -22,27 +19,27 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    void CheckInput()
+    private void CheckInput()
     {
         if (isLocalPlayer)
         {
-            direction.x = Input.GetAxisRaw("Horizontal");
-            direction.y = Input.GetAxisRaw("Vertical");
+            _direction.x = Input.GetAxisRaw("Horizontal");
+            _direction.y = Input.GetAxisRaw("Vertical");
         }
     }
 
-    void MovePosition()
+    private void MovePosition()
     {
-        rb.MovePosition(rb.position + direction.normalized * Time.fixedDeltaTime * speed);
+        _rigidBody.MovePosition(_rigidBody.position + _direction.normalized * Time.fixedDeltaTime * speed);
     }
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        cameraConnect();     
+        _rigidBody = GetComponent<Rigidbody2D>();
+        CameraConnect();     
     }
 
-    void Update()
+    private void Update()
     {
         CheckInput();
     }
