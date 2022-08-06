@@ -10,8 +10,8 @@ public struct PlayerParams: NetworkMessage
 
 public class CustomNetworkMenager : NetworkManager
 {
-    private bool isConnected;
-    private NetworkConnection connection;
+    public bool isConnected;
+    public NetworkConnection connection;
     private List<SaveDate.PlayersPositions> serverSave;
     private SaveDate.PlayerData playerSave;
     private PlayerParams newPlayerParams;

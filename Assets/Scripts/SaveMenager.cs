@@ -1,9 +1,6 @@
 using System.IO;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
-using System;
-using System.Linq;
 
 public class SaveMenager
 {
