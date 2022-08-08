@@ -9,13 +9,13 @@ public class PlayerController : NetworkBehaviour
 {
     public float speed;
     public GameObject mainCamera;
+    [SyncVar]
     public float health;
     public float maxHealth = 2f;
     public TextMeshProUGUI healthUI;
     private bool _canControll = true;
     private Rigidbody2D _rigidBody;
     private Vector2 _direction;
-    private SaveDate.PlayerData _safeData = SaveMenager.Load<SaveDate.PlayerData>("playerSave.json");
 
     private void CameraConnect()
     {
@@ -83,7 +83,6 @@ public class PlayerController : NetworkBehaviour
     private void Start()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
-        name = _safeData.playerName;
         var newhealthUIs = FindObjectsOfType<TextMeshProUGUI>();
         for(var i = 0; i < newhealthUIs.Length; i++)
         {

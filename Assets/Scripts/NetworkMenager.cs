@@ -16,6 +16,7 @@ public class CustomNetworkMenager : NetworkManager
     private SaveDate.PlayerData playerSave;
     private PlayerParams newPlayerParams;
 
+
     public override void Start()
     {
         base.Start();
@@ -62,13 +63,13 @@ public class CustomNetworkMenager : NetworkManager
                 {
                    if (player.playerName == message.name)
                       {
-                        SpawnWithSave(conn, player);
+                        SpawnWithSave(conn, player, message.name);
                       }
                         else
                         {
                             if(listLengh == _listLengh)
                             {
-                                SpawnWithNotSave(message, conn);
+                                SpawnWithNotSave(message, conn, message.name);
                             }
                             _listLengh++;
                         }
@@ -76,18 +77,19 @@ public class CustomNetworkMenager : NetworkManager
         }
         else
         {
-            SpawnWithNotSave(message, conn);
+            SpawnWithNotSave(message, conn, message.name);
         }
     }
 
-    private void SpawnWithSave(NetworkConnectionToClient conn, SaveDate.PlayersPositions player)
+    private void SpawnWithSave(NetworkConnectionToClient conn, SaveDate.PlayersPositions player, string playerName)
     {
         GameObject gameobject;
         gameobject = Instantiate(playerPrefab, new Vector2(player.playerPosition.x, player.playerPosition.y), Quaternion.identity);
+        gameobject.name = playerName;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 
-    private void SpawnWithNotSave(PlayerParams message, NetworkConnectionToClient conn)
+    private void SpawnWithNotSave(PlayerParams message, NetworkConnectionToClient conn, string playerName)
     {
         GameObject gameobject;
         SaveDate.PlayersPositions newSave = new();
@@ -96,6 +98,7 @@ public class CustomNetworkMenager : NetworkManager
         serverSave.Add(newSave);
         SaveMenager.Save(serverSave, "playersPositions.json");
         gameobject = Instantiate(playerPrefab, new Vector2(9, 1), Quaternion.identity);
+        gameobject.name = playerName;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 
