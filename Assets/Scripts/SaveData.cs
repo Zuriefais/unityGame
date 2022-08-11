@@ -13,4 +13,9 @@ namespace SaveDate
         public string playerName;
         public Vector2Int playerPosition;
     }
+
+    public class Settings
+    {
+        public bool isFulscreen;
+    }
 }

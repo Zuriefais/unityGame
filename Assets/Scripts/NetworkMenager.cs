@@ -16,6 +16,8 @@ public class CustomNetworkMenager : NetworkManager
     private SaveDate.PlayerData playerSave;
     private PlayerParams newPlayerParams;
 
+    public GameObject bulletPrefab;
+
 
     public override void Start()
     {
@@ -30,8 +32,12 @@ public class CustomNetworkMenager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-
         NetworkServer.RegisterHandler<PlayerParams>(OnCreateCharacter);
+    }
+
+    public void ClientConnect()
+    {
+        NetworkClient.RegisterPrefab(bulletPrefab);
     }
 
     [Obsolete]
@@ -87,6 +93,7 @@ public class CustomNetworkMenager : NetworkManager
         gameobject = Instantiate(playerPrefab, new Vector2(player.playerPosition.x, player.playerPosition.y), Quaternion.identity);
         gameobject.name = playerName;
         gameobject.GetComponent<PlayerController>().playerName = playerName;
+        gameobject.GetComponent<PlayerController>().bulletPrefab = bulletPrefab;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 
@@ -100,6 +107,7 @@ public class CustomNetworkMenager : NetworkManager
         SaveMenager.Save(serverSave, "playersPositions.json");
         gameobject = Instantiate(playerPrefab, new Vector2(9, 1), Quaternion.identity);
         gameobject.name = playerName;
+        gameobject.GetComponent<PlayerController>().bulletPrefab = bulletPrefab;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 

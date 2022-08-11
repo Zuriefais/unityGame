@@ -22,6 +22,7 @@ public class PlayerController : NetworkBehaviour
     private bool _canControll = true;
     private Rigidbody2D _rigidBody;
     private Vector2 _direction;
+    public GameObject bulletPrefab;
 
     private void CameraConnect()
     {
@@ -39,9 +40,17 @@ public class PlayerController : NetworkBehaviour
             _direction.y = Input.GetAxisRaw("Vertical");
             if (Input.GetButtonDown("Fire1"))
             {
-                RemoveHealth(1f);
+                SpawnBullet(netId ,Input.mousePosition);
             }
         }
+    }
+
+    [Command]
+    private void SpawnBullet(uint owner ,Vector2 target,NetworkConnectionToClient sender = null)
+    {
+        GameObject bulletGo = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(bulletGo);
+        bulletGo.GetComponent<Bulet>().Init(owner, target);
     }
 
     private void MovePosition()
