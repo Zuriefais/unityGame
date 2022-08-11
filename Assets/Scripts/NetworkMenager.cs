@@ -86,6 +86,7 @@ public class CustomNetworkMenager : NetworkManager
         GameObject gameobject;
         gameobject = Instantiate(playerPrefab, new Vector2(player.playerPosition.x, player.playerPosition.y), Quaternion.identity);
         gameobject.name = playerName;
+        gameobject.GetComponent<PlayerController>().playerName = playerName;
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 
