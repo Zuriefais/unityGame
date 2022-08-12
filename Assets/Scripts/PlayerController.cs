@@ -23,12 +23,14 @@ public class PlayerController : NetworkBehaviour
     private Rigidbody2D _rigidBody;
     private Vector2 _direction;
     public GameObject bulletPrefab;
+    private CinemachineVirtualCamera _cineMashineCamera;
 
     private void CameraConnect()
     {
         if (isLocalPlayer)
         {
-            Camera.cvc.Follow = gameObject.transform;
+            _cineMashineCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            _cineMashineCamera.Follow = gameObject.transform;
         }
     }
 
@@ -40,7 +42,7 @@ public class PlayerController : NetworkBehaviour
             _direction.y = Input.GetAxisRaw("Vertical");
             if (Input.GetButtonDown("Fire1"))
             {
-                SpawnBullet(netId ,Input.mousePosition);
+                SpawnBullet(netId ,Camera.main.ScreenToWorldPoint(Input.mousePosition));
             }
         }
     }
@@ -78,7 +80,7 @@ public class PlayerController : NetworkBehaviour
     [Client]
     private void ChangeCamera()
     {
-        Camera.cvc.Follow = GameObject.Find("Dog").transform;
+        _cineMashineCamera.Follow = GameObject.Find("Dog").transform;
     }
 
     [Command(requiresAuthority = false)]

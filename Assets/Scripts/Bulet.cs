@@ -21,7 +21,8 @@ public class Bulet :  NetworkBehaviour
     {
         if (inited && isServer)
         {
-            if(transform.position == new Vector3(target.x ,target.y))
+            transform.Translate((target - new Vector2(transform.position.x, transform.position.y)).normalized * 0.10f);
+            if (transform.position == new Vector3(target.x ,target.y))
             {
                 NetworkServer.Destroy(gameObject);
             }
